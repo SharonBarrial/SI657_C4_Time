@@ -1,0 +1,87 @@
+@startuml pc1
+set separator none
+title GeoCientifica - System Context
+
+top to bottom direction
+
+skinparam {
+  arrowFontSize 10
+  defaultTextAlignment center
+  wrapWidth 200
+  maxMessageSize 100
+}
+
+hide stereotype
+
+skinparam rectangle<<BI>> {
+  BackgroundColor #1168bd
+  FontColor #ffffff
+  BorderColor #0b4884
+  roundCorner 20
+  shadowing false
+}
+skinparam hexagon<<CLOUDS3>> {
+  BackgroundColor #ff8000
+  FontColor #ffffff
+  BorderColor #b25900
+  shadowing false
+}
+skinparam rectangle<<GeoCientifica>> {
+  BackgroundColor #26cf48
+  FontColor #ffffff
+  BorderColor #1a9032
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<LABORATORIO>> {
+  BackgroundColor #1168bd
+  FontColor #ffffff
+  BorderColor #0b4884
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<REPOSITORIOINGEMMET>> {
+  BackgroundColor #1168bd
+  FontColor #ffffff
+  BorderColor #0b4884
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<TRAMITEADMINISTRATIVO>> {
+  BackgroundColor #1168bd
+  FontColor #ffffff
+  BorderColor #0b4884
+  roundCorner 20
+  shadowing false
+}
+skinparam person<<Usuario>> {
+  BackgroundColor #08427b
+  FontColor #ffffff
+  BorderColor #052e56
+  shadowing false
+}
+skinparam rectangle<<VULCANOLOGIA>> {
+  BackgroundColor #1168bd
+  FontColor #ffffff
+  BorderColor #0b4884
+  roundCorner 20
+  shadowing false
+}
+
+person "==Usuario\n<size:10>[Person]</size>\n\nDescripción de usuarios" <<Usuario>> as Usuario
+rectangle "==GeoCientifica\n<size:10>[Software System]</size>\n\nSistema que permite realizar el procesamiento de información GeoCientífica y graficarla para una mejor georreferenciación" <<GeoCientifica>> as GeoCientifica
+rectangle "==TRAMITE ADMINISTRATIVO\n<size:10>[Software System]</size>\n\nInternal System" <<TRAMITEADMINISTRATIVO>> as TRAMITEADMINISTRATIVO
+rectangle "==LABORATORIO\n<size:10>[Software System]</size>\n\nInternal System" <<LABORATORIO>> as LABORATORIO
+rectangle "==VULCANOLOGIA\n<size:10>[Software System]</size>\n\nInternal System" <<VULCANOLOGIA>> as VULCANOLOGIA
+rectangle "==BI\n<size:10>[Software System]</size>\n\nInternal System" <<BI>> as BI
+rectangle "==REPOSITORIO INGEMMET\n<size:10>[Software System]</size>\n\nInternal System" <<REPOSITORIOINGEMMET>> as REPOSITORIOINGEMMET
+hexagon "==CLOUD S3\n<size:10>[Software System]</size>" <<CLOUDS3>> as CLOUDS3
+
+Usuario .[#707070,thickness=2].> GeoCientifica : "<color:#707070>Usa"
+GeoCientifica .[#707070,thickness=2].> CLOUDS3 : "<color:#707070>usa"
+GeoCientifica .[#707070,thickness=2].> TRAMITEADMINISTRATIVO : "<color:#707070>usa"
+GeoCientifica .[#707070,thickness=2].> LABORATORIO : "<color:#707070>usa"
+GeoCientifica .[#707070,thickness=2].> VULCANOLOGIA : "<color:#707070>usa"
+GeoCientifica .[#707070,thickness=2].> BI : "<color:#707070>usa"
+GeoCientifica .[#707070,thickness=2].> REPOSITORIOINGEMMET : "<color:#707070>usa"
+@enduml
