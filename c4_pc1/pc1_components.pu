@@ -1,0 +1,129 @@
+@startuml pc1
+set separator none
+title GeoCientifica - ADM PROYECTOS GEOLÓGICOS - Components
+
+top to bottom direction
+
+skinparam {
+  arrowFontSize 10
+  defaultTextAlignment center
+  wrapWidth 200
+  maxMessageSize 100
+}
+
+hide stereotype
+
+skinparam rectangle<<GeoCientifica.APPWEB>> {
+  BackgroundColor #438dd5
+  FontColor #ffffff
+  BorderColor #2e6295
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<GeoCientifica.ADMPROYECTOSGEOLÓGICOS.CARTADESUELOS>> {
+  BackgroundColor #85bbf0
+  FontColor #000000
+  BorderColor #5d82a8
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<GeoCientifica.ADMPROYECTOSGEOLÓGICOS.GESTIONAMBIENTALYRIESGOS>> {
+  BackgroundColor #85bbf0
+  FontColor #000000
+  BorderColor #5d82a8
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<GeoCientifica.ADMPROYECTOSGEOLÓGICOS.GESTIONRECURSOSMINERALESYENERGETICOS>> {
+  BackgroundColor #85bbf0
+  FontColor #000000
+  BorderColor #5d82a8
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MODULOADMINISTRADOR>> {
+  BackgroundColor #85bbf0
+  FontColor #000000
+  BorderColor #5d82a8
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MODULOMAPASDIGITALES>> {
+  BackgroundColor #85bbf0
+  FontColor #000000
+  BorderColor #5d82a8
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MOVIMIENTOMASASINUNDACIONES>> {
+  BackgroundColor #85bbf0
+  FontColor #000000
+  BorderColor #5d82a8
+  roundCorner 20
+  shadowing false
+}
+skinparam database<<GeoCientifica.ORACLE>> {
+  BackgroundColor #ec0e0e
+  FontColor #ffffff
+  BorderColor #a50909
+  shadowing false
+}
+skinparam rectangle<<GeoCientifica.ADMPROYECTOSGEOLÓGICOS.PELIGROVOLLCANICO>> {
+  BackgroundColor #85bbf0
+  FontColor #000000
+  BorderColor #5d82a8
+  roundCorner 20
+  shadowing false
+}
+skinparam hexagon<<GeoCientifica.RECURSOSCLOUD>> {
+  BackgroundColor #ff8000
+  FontColor #ffffff
+  BorderColor #b25900
+  shadowing false
+}
+skinparam rectangle<<GeoCientifica.SISTEMASDEARCHIVOS>> {
+  BackgroundColor #438dd5
+  FontColor #ffffff
+  BorderColor #2e6295
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<GeoCientifica.ADMPROYECTOSGEOLÓGICOS>> {
+  BorderColor #2e6295
+  FontColor #2e6295
+  shadowing false
+}
+
+rectangle "==APP WEB\n<size:10>[Container: JBOSS JSON]</size>\n\nApp Web" <<GeoCientifica.APPWEB>> as GeoCientifica.APPWEB
+hexagon "==RECURSOS CLOUD\n<size:10>[Container: PYTHON]</size>\n\nJakarta" <<GeoCientifica.RECURSOSCLOUD>> as GeoCientifica.RECURSOSCLOUD
+database "==ORACLE\n<size:10>[Container: ORACLE 19C]</size>\n\nBase de datos" <<GeoCientifica.ORACLE>> as GeoCientifica.ORACLE
+rectangle "==SISTEMAS DE ARCHIVOS\n<size:10>[Container]</size>\n\nSystem Software" <<GeoCientifica.SISTEMASDEARCHIVOS>> as GeoCientifica.SISTEMASDEARCHIVOS
+
+rectangle "ADM PROYECTOS GEOLÓGICOS\n<size:10>[Container]</size>" <<GeoCientifica.ADMPROYECTOSGEOLÓGICOS>> {
+  rectangle "==MODULO ADMINISTRADOR\n<size:10>[Component]</size>" <<GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MODULOADMINISTRADOR>> as GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MODULOADMINISTRADOR
+  rectangle "==GESTION AMBIENTAL Y RIESGOS\n<size:10>[Component]</size>" <<GeoCientifica.ADMPROYECTOSGEOLÓGICOS.GESTIONAMBIENTALYRIESGOS>> as GeoCientifica.ADMPROYECTOSGEOLÓGICOS.GESTIONAMBIENTALYRIESGOS
+  rectangle "==MOVIMIENTO MASAS INUNDACIONES\n<size:10>[Component]</size>" <<GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MOVIMIENTOMASASINUNDACIONES>> as GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MOVIMIENTOMASASINUNDACIONES
+  rectangle "==PELIGRO VOLLCANICO\n<size:10>[Component]</size>" <<GeoCientifica.ADMPROYECTOSGEOLÓGICOS.PELIGROVOLLCANICO>> as GeoCientifica.ADMPROYECTOSGEOLÓGICOS.PELIGROVOLLCANICO
+  rectangle "==GESTION RECURSOS MINERALES Y ENERGETICOS\n<size:10>[Component]</size>" <<GeoCientifica.ADMPROYECTOSGEOLÓGICOS.GESTIONRECURSOSMINERALESYENERGETICOS>> as GeoCientifica.ADMPROYECTOSGEOLÓGICOS.GESTIONRECURSOSMINERALESYENERGETICOS
+  rectangle "==CARTA DE SUELOS\n<size:10>[Component]</size>" <<GeoCientifica.ADMPROYECTOSGEOLÓGICOS.CARTADESUELOS>> as GeoCientifica.ADMPROYECTOSGEOLÓGICOS.CARTADESUELOS
+  rectangle "==MODULO MAPAS DIGITALES\n<size:10>[Component]</size>" <<GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MODULOMAPASDIGITALES>> as GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MODULOMAPASDIGITALES
+}
+
+GeoCientifica.RECURSOSCLOUD .[#707070,thickness=2].> GeoCientifica.SISTEMASDEARCHIVOS : "<color:#707070>usa"
+GeoCientifica.SISTEMASDEARCHIVOS .[#707070,thickness=2].> GeoCientifica.ORACLE : "<color:#707070>usa"
+GeoCientifica.APPWEB .[#707070,thickness=2].> GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MODULOADMINISTRADOR : "<color:#707070>usa"
+GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MODULOADMINISTRADOR .[#707070,thickness=2].> GeoCientifica.ADMPROYECTOSGEOLÓGICOS.GESTIONAMBIENTALYRIESGOS : "<color:#707070>usa"
+GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MODULOADMINISTRADOR .[#707070,thickness=2].> GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MOVIMIENTOMASASINUNDACIONES : "<color:#707070>usa"
+GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MODULOADMINISTRADOR .[#707070,thickness=2].> GeoCientifica.ADMPROYECTOSGEOLÓGICOS.PELIGROVOLLCANICO : "<color:#707070>usa"
+GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MODULOADMINISTRADOR .[#707070,thickness=2].> GeoCientifica.ADMPROYECTOSGEOLÓGICOS.GESTIONRECURSOSMINERALESYENERGETICOS : "<color:#707070>usa"
+GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MODULOADMINISTRADOR .[#707070,thickness=2].> GeoCientifica.ADMPROYECTOSGEOLÓGICOS.CARTADESUELOS : "<color:#707070>usa"
+GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MODULOADMINISTRADOR .[#707070,thickness=2].> GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MODULOMAPASDIGITALES : "<color:#707070>usa"
+GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MODULOMAPASDIGITALES .[#707070,thickness=2].> GeoCientifica.SISTEMASDEARCHIVOS : "<color:#707070>USA"
+GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MODULOADMINISTRADOR .[#707070,thickness=2].> GeoCientifica.RECURSOSCLOUD : "<color:#707070>usa"
+GeoCientifica.ADMPROYECTOSGEOLÓGICOS.GESTIONAMBIENTALYRIESGOS .[#707070,thickness=2].> GeoCientifica.ORACLE : "<color:#707070>leer y escribir"
+GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MOVIMIENTOMASASINUNDACIONES .[#707070,thickness=2].> GeoCientifica.ORACLE : "<color:#707070>leer y escribir"
+GeoCientifica.ADMPROYECTOSGEOLÓGICOS.PELIGROVOLLCANICO .[#707070,thickness=2].> GeoCientifica.ORACLE : "<color:#707070>leer y escribir"
+GeoCientifica.ADMPROYECTOSGEOLÓGICOS.GESTIONRECURSOSMINERALESYENERGETICOS .[#707070,thickness=2].> GeoCientifica.ORACLE : "<color:#707070>leer y escribir"
+GeoCientifica.ADMPROYECTOSGEOLÓGICOS.CARTADESUELOS .[#707070,thickness=2].> GeoCientifica.ORACLE : "<color:#707070>leer y escribir"
+GeoCientifica.ADMPROYECTOSGEOLÓGICOS.MODULOMAPASDIGITALES .[#707070,thickness=2].> GeoCientifica.ORACLE : "<color:#707070>leer y escribir"
+@enduml
