@@ -1,0 +1,125 @@
+@startuml
+set separator none
+title Family - RETRANSMISION - Components
+
+top to bottom direction
+
+skinparam {
+  arrowFontSize 10
+  defaultTextAlignment center
+  wrapWidth 200
+  maxMessageSize 100
+}
+
+hide stereotype
+
+skinparam hexagon<<Family.APIGATEWAY>> {
+  BackgroundColor #ff8000
+  FontColor #ffffff
+  BorderColor #b25900
+  shadowing false
+}
+skinparam rectangle<<Family.RETRANSMISION.CONECTORGOOGLEMAPS>> {
+  BackgroundColor #85bbf0
+  FontColor #000000
+  BorderColor #5d82a8
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<Family.RETRANSMISION.CONECTORPAYPAL>> {
+  BackgroundColor #85bbf0
+  FontColor #000000
+  BorderColor #5d82a8
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<Family.RETRANSMISION.CONECTORWHATSAPP>> {
+  BackgroundColor #85bbf0
+  FontColor #000000
+  BorderColor #5d82a8
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<Family.RETRANSMISION.CONECTORYOUTUBE>> {
+  BackgroundColor #85bbf0
+  FontColor #000000
+  BorderColor #5d82a8
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<Family.RETRANSMISION.CONTROLLER>> {
+  BackgroundColor #85bbf0
+  FontColor #000000
+  BorderColor #5d82a8
+  roundCorner 20
+  shadowing false
+}
+skinparam database<<Family.DB>> {
+  BackgroundColor #ec0e0e
+  FontColor #ffffff
+  BorderColor #a50909
+  shadowing false
+}
+skinparam rectangle<<GOOGLEMAPS>> {
+  BackgroundColor #1168bd
+  FontColor #ffffff
+  BorderColor #0b4884
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<PAYPAL>> {
+  BackgroundColor #1168bd
+  FontColor #ffffff
+  BorderColor #0b4884
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<WHATSAPPTWILIOGMAIL>> {
+  BackgroundColor #1168bd
+  FontColor #ffffff
+  BorderColor #0b4884
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<YOUTUBE>> {
+  BackgroundColor #1168bd
+  FontColor #ffffff
+  BorderColor #0b4884
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<Family.RETRANSMISION>> {
+  BorderColor #2e6295
+  FontColor #2e6295
+  shadowing false
+}
+
+hexagon "==APIGATEWAY\n<size:10>[Container: Java]</size>\n\nApI Gateway" <<Family.APIGATEWAY>> as Family.APIGATEWAY
+database "==DB\n<size:10>[Container: DB2 PUERTO 500]</size>\n\nBase de datos" <<Family.DB>> as Family.DB
+rectangle "==YOUTUBE\n<size:10>[Software System]</size>\n\nInternal System" <<YOUTUBE>> as YOUTUBE
+rectangle "==WHATSAPP/TWILIO/GMAIL\n<size:10>[Software System]</size>\n\nInternal System" <<WHATSAPPTWILIOGMAIL>> as WHATSAPPTWILIOGMAIL
+rectangle "==PAYPAL\n<size:10>[Software System]</size>\n\nInternal System" <<PAYPAL>> as PAYPAL
+rectangle "==GOOGLE MAPS\n<size:10>[Software System]</size>\n\nInternal System" <<GOOGLEMAPS>> as GOOGLEMAPS
+
+rectangle "RETRANSMISION\n<size:10>[Container: SI]</size>" <<Family.RETRANSMISION>> {
+  rectangle "==CONTROLLER\n<size:10>[Component]</size>" <<Family.RETRANSMISION.CONTROLLER>> as Family.RETRANSMISION.CONTROLLER
+  rectangle "==CONECTOR YOUTUBE\n<size:10>[Component]</size>" <<Family.RETRANSMISION.CONECTORYOUTUBE>> as Family.RETRANSMISION.CONECTORYOUTUBE
+  rectangle "==CONECTOR WHATSAPP\n<size:10>[Component]</size>" <<Family.RETRANSMISION.CONECTORWHATSAPP>> as Family.RETRANSMISION.CONECTORWHATSAPP
+  rectangle "==CONECTOR GOOGLE MAPS\n<size:10>[Component]</size>" <<Family.RETRANSMISION.CONECTORGOOGLEMAPS>> as Family.RETRANSMISION.CONECTORGOOGLEMAPS
+  rectangle "==CONECTOR PAYPAL\n<size:10>[Component]</size>" <<Family.RETRANSMISION.CONECTORPAYPAL>> as Family.RETRANSMISION.CONECTORPAYPAL
+}
+
+Family.APIGATEWAY .[#707070,thickness=2].> Family.RETRANSMISION.CONTROLLER : "<color:#707070>usa"
+Family.RETRANSMISION.CONTROLLER .[#707070,thickness=2].> Family.RETRANSMISION.CONECTORYOUTUBE : "<color:#707070>usa"
+Family.RETRANSMISION.CONTROLLER .[#707070,thickness=2].> Family.RETRANSMISION.CONECTORWHATSAPP : "<color:#707070>usa"
+Family.RETRANSMISION.CONTROLLER .[#707070,thickness=2].> Family.RETRANSMISION.CONECTORGOOGLEMAPS : "<color:#707070>usa"
+Family.RETRANSMISION.CONTROLLER .[#707070,thickness=2].> Family.RETRANSMISION.CONECTORPAYPAL : "<color:#707070>usa"
+Family.RETRANSMISION.CONECTORYOUTUBE .[#707070,thickness=2].> Family.DB : "<color:#707070>leer y escribir"
+Family.RETRANSMISION.CONECTORWHATSAPP .[#707070,thickness=2].> Family.DB : "<color:#707070>leer y escribir"
+Family.RETRANSMISION.CONECTORGOOGLEMAPS .[#707070,thickness=2].> Family.DB : "<color:#707070>leer y escribir"
+Family.RETRANSMISION.CONECTORPAYPAL .[#707070,thickness=2].> Family.DB : "<color:#707070>leer y escribir"
+Family.RETRANSMISION.CONTROLLER .[#707070,thickness=2].> YOUTUBE : "<color:#707070>usa"
+Family.RETRANSMISION.CONTROLLER .[#707070,thickness=2].> WHATSAPPTWILIOGMAIL : "<color:#707070>usa"
+Family.RETRANSMISION.CONTROLLER .[#707070,thickness=2].> PAYPAL : "<color:#707070>usa"
+Family.RETRANSMISION.CONTROLLER .[#707070,thickness=2].> GOOGLEMAPS : "<color:#707070>usa"
+@enduml
