@@ -1,1 +1,179 @@
+@startuml pc1
+set separator none
+title Family - Containers
 
+top to bottom direction
+
+skinparam {
+  arrowFontSize 10
+  defaultTextAlignment center
+  wrapWidth 200
+  maxMessageSize 100
+}
+
+hide stereotype
+
+skinparam rectangle<<Family.ACTIVIDADESFAMILIARES>> {
+  BackgroundColor #438dd5
+  FontColor #ffffff
+  BorderColor #2e6295
+  roundCorner 20
+  shadowing false
+}
+skinparam hexagon<<Family.APIGATEWAY>> {
+  BackgroundColor #ff8000
+  FontColor #ffffff
+  BorderColor #b25900
+  shadowing false
+}
+skinparam rectangle<<Family.APPWEB>> {
+  BackgroundColor #438dd5
+  FontColor #ffffff
+  BorderColor #2e6295
+  roundCorner 20
+  shadowing false
+}
+skinparam person<<Administrador>> {
+  BackgroundColor #08427b
+  FontColor #ffffff
+  BorderColor #052e56
+  shadowing false
+}
+skinparam database<<Family.DB>> {
+  BackgroundColor #ec0e0e
+  FontColor #ffffff
+  BorderColor #a50909
+  shadowing false
+}
+skinparam rectangle<<Family.ENVIOS>> {
+  BackgroundColor #438dd5
+  FontColor #ffffff
+  BorderColor #2e6295
+  roundCorner 20
+  shadowing false
+}
+skinparam person<<Familiar>> {
+  BackgroundColor #08427b
+  FontColor #ffffff
+  BorderColor #052e56
+  shadowing false
+}
+skinparam rectangle<<GOOGLEMAPS>> {
+  BackgroundColor #1168bd
+  FontColor #ffffff
+  BorderColor #0b4884
+  roundCorner 20
+  shadowing false
+}
+skinparam person<<Invitado>> {
+  BackgroundColor #08427b
+  FontColor #ffffff
+  BorderColor #052e56
+  shadowing false
+}
+skinparam rectangle<<PAYPAL>> {
+  BackgroundColor #1168bd
+  FontColor #ffffff
+  BorderColor #0b4884
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<Family.RECORDATORIOS>> {
+  BackgroundColor #438dd5
+  FontColor #ffffff
+  BorderColor #2e6295
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<Family.RETRANSMISION>> {
+  BackgroundColor #438dd5
+  FontColor #ffffff
+  BorderColor #2e6295
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<Family.TRAMITES>> {
+  BackgroundColor #438dd5
+  FontColor #ffffff
+  BorderColor #2e6295
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<Family.UBICACION>> {
+  BackgroundColor #438dd5
+  FontColor #ffffff
+  BorderColor #2e6295
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<Family.VLOG>> {
+  BackgroundColor #438dd5
+  FontColor #ffffff
+  BorderColor #2e6295
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<WHATSAPPTWILIOGMAIL>> {
+  BackgroundColor #1168bd
+  FontColor #ffffff
+  BorderColor #0b4884
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<YOUTUBE>> {
+  BackgroundColor #1168bd
+  FontColor #ffffff
+  BorderColor #0b4884
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<Family>> {
+  BorderColor #1a9032
+  FontColor #1a9032
+  shadowing false
+}
+
+person "==Familiar\n<size:10>[Person]</size>\n\nDescripción de usuarios" <<Familiar>> as Familiar
+person "==Invitado\n<size:10>[Person]</size>\n\nDescripción de usuarios" <<Invitado>> as Invitado
+person "==Administrador\n<size:10>[Person]</size>\n\nDescripción de usuarios" <<Administrador>> as Administrador
+rectangle "==YOUTUBE\n<size:10>[Software System]</size>\n\nInternal System" <<YOUTUBE>> as YOUTUBE
+rectangle "==WHATSAPP/TWILIO/GMAIL\n<size:10>[Software System]</size>\n\nInternal System" <<WHATSAPPTWILIOGMAIL>> as WHATSAPPTWILIOGMAIL
+rectangle "==PAYPAL\n<size:10>[Software System]</size>\n\nInternal System" <<PAYPAL>> as PAYPAL
+rectangle "==GOOGLE MAPS\n<size:10>[Software System]</size>\n\nInternal System" <<GOOGLEMAPS>> as GOOGLEMAPS
+
+rectangle "Family\n<size:10>[Software System]</size>" <<Family>> {
+  rectangle "==ENVIOS\n<size:10>[Container]</size>\n\nJBOSS JSON" <<Family.ENVIOS>> as Family.ENVIOS
+  rectangle "==TRAMITES\n<size:10>[Container]</size>\n\nSystem Software" <<Family.TRAMITES>> as Family.TRAMITES
+  rectangle "==ACTIVIDADES FAMILIARES\n<size:10>[Container]</size>\n\nSystem Software" <<Family.ACTIVIDADESFAMILIARES>> as Family.ACTIVIDADESFAMILIARES
+  rectangle "==RECORDATORIOS\n<size:10>[Container]</size>\n\nSystem Software" <<Family.RECORDATORIOS>> as Family.RECORDATORIOS
+  rectangle "==RETRANSMISION\n<size:10>[Container: SI]</size>\n\nJBOSS JSON" <<Family.RETRANSMISION>> as Family.RETRANSMISION
+  rectangle "==APP WEB\n<size:10>[Container: JBOSS JSON]</size>\n\nApp Web" <<Family.APPWEB>> as Family.APPWEB
+  hexagon "==APIGATEWAY\n<size:10>[Container: Java]</size>\n\nApI Gateway" <<Family.APIGATEWAY>> as Family.APIGATEWAY
+  database "==DB\n<size:10>[Container: DB2 PUERTO 500]</size>\n\nBase de datos" <<Family.DB>> as Family.DB
+  rectangle "==VLOG\n<size:10>[Container]</size>\n\nJBOSS JSON" <<Family.VLOG>> as Family.VLOG
+  rectangle "==UBICACION\n<size:10>[Container]</size>\n\nJBOSS JSON" <<Family.UBICACION>> as Family.UBICACION
+}
+
+Family.RETRANSMISION .[#707070,thickness=2].> YOUTUBE : "<color:#707070>usa"
+Family.RETRANSMISION .[#707070,thickness=2].> WHATSAPPTWILIOGMAIL : "<color:#707070>usa"
+Family.RETRANSMISION .[#707070,thickness=2].> PAYPAL : "<color:#707070>usa"
+Family.RETRANSMISION .[#707070,thickness=2].> GOOGLEMAPS : "<color:#707070>usa"
+Familiar .[#707070,thickness=2].> Family.APPWEB : "<color:#707070>usa"
+Invitado .[#707070,thickness=2].> Family.APPWEB : "<color:#707070>usa"
+Administrador .[#707070,thickness=2].> Family.APPWEB : "<color:#707070>usa"
+Family.APPWEB .[#707070,thickness=2].> Family.APIGATEWAY : "<color:#707070>autoriza"
+Family.APIGATEWAY .[#707070,thickness=2].> Family.VLOG : "<color:#707070>usa"
+Family.APIGATEWAY .[#707070,thickness=2].> Family.UBICACION : "<color:#707070>usa"
+Family.APIGATEWAY .[#707070,thickness=2].> Family.ENVIOS : "<color:#707070>usa"
+Family.APIGATEWAY .[#707070,thickness=2].> Family.RETRANSMISION : "<color:#707070>usa"
+Family.APIGATEWAY .[#707070,thickness=2].> Family.TRAMITES : "<color:#707070>usa"
+Family.APIGATEWAY .[#707070,thickness=2].> Family.ACTIVIDADESFAMILIARES : "<color:#707070>usa"
+Family.APIGATEWAY .[#707070,thickness=2].> Family.RECORDATORIOS : "<color:#707070>usa"
+Family.VLOG .[#707070,thickness=2].> Family.DB : "<color:#707070>lee y escribe"
+Family.UBICACION .[#707070,thickness=2].> Family.DB : "<color:#707070>lee y escribe"
+Family.ENVIOS .[#707070,thickness=2].> Family.DB : "<color:#707070>lee y escribe"
+Family.RETRANSMISION .[#707070,thickness=2].> Family.DB : "<color:#707070>lee y escribe"
+Family.TRAMITES .[#707070,thickness=2].> Family.DB : "<color:#707070>lee y escribe"
+Family.ACTIVIDADESFAMILIARES .[#707070,thickness=2].> Family.DB : "<color:#707070>lee y escribe"
+Family.RECORDATORIOS .[#707070,thickness=2].> Family.DB : "<color:#707070>lee y escribe"
+@enduml
