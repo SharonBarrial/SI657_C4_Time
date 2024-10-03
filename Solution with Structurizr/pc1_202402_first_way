@@ -1,0 +1,167 @@
+//Solution of pc1 202402 first way: using component retransmision and bounded contexts aligned to the problem simplicity
+//For visualize the diagram render visit https://structurizr.com/dsl an copy paste the code
+//Case: Family app, 202402 ea
+//For visualize context, contents or components, visit read.me in the repository
+//author: Sharon Barrial
+workspace "GeoCientifica" "Sistema que permite realizar el procesamiento de información GeoCientífica y graficarla para una mejor georreferenciación" {
+
+    model {
+    user1 = person "Familiar" "Descripción de usuarios"
+    user2 = person "Invitado" "Descripción de usuarios"
+    user3 = person "Administrador" "Descripción de usuarios"
+    
+    software = softwareSystem  "Family" "Sistema mantener contacto con familiares en el extranjero"   "SPOT"{
+        
+        webb = container "APP WEB"   "App Web "  "JBOSS JSON"
+        apigw = container  "APIGATEWAY"  "ApI Gateway" "Java" "SI"
+        //rc - container "RETRANSMISION" "Jakarta" "PYTHON" "SI"
+        bd = container "DB"  "Base de datos"  "DB2 PUERTO 500" "Oracle"
+        
+        //container modulos
+        c1 = container "VLOG" "JBOSS JSON"
+        c2 = container "UBICACION" "JBOSS JSON" 
+        c3 = container "ENVIOS" "JBOSS JSON"
+        c5 = container "TRAMITES" "System Software"
+        c6 = container "ACTIVIDADES FAMILIARES" "System Software"
+        c7 = container "RECORDATORIOS" "System Software"
+        
+        c4 = container "RETRANSMISION" "JBOSS JSON" "SI" {
+            cp1 = component "CONTROLLER"
+            cp2 = component "CONECTOR YOUTUBE"
+            cp3 = component "CONECTOR WHATSAPP"
+            cp4 = component "CONECTOR GOOGLE MAPS"
+            cp5 = component "CONECTOR PAYPAL"
+            //cp6  component "CARTA DE SUELOS"
+            //cp7  component "MODULO MAPAS DIGITALES"
+        
+        }
+        
+    }
+    
+    //SYSTEMS
+   
+    s1 = softwareSystem "YOUTUBE" "Internal System"
+    s2 = softwareSystem "WHATSAPP/TWILIO/GMAIL" "Internal System"
+    s3 = softwareSystem "PAYPAL" "Internal System"
+    s4 = softwareSystem "GOOGLE MAPS" "Internal System"
+    //bounded context de comunicacion y notificacion: twilio/whatsapp/gmail
+    //bounded context de contenidos compartidos: youtube/google maps
+    //bounded context de transacciones: paypal
+    
+    s6 = softwareSystem "CLOUD S3" "" "SI"
+    
+    //relaciones contexto
+    user1 -> software "Usa"
+    user2 -> software "usa"
+    user3 -> software "usa"
+    
+    //SYSTEMS-RELATIONS
+    //apigw - c4 "USA"
+    c4 -> s1 "usa"
+    c4 -> s2 "usa"
+    c4 -> s3 "usa"
+    c4 -> s4 "usa"
+    
+    //contenedores w context
+    //c1 - bd "usa"
+    //c2 - bd "usa"
+    //c3 - bd "usa"
+    //c5 - bd "usa"
+    
+    
+    
+    //relaciones contenedores
+    user1 -> webb "usa"
+    user2 -> webb "usa"
+    user3 -> webb "usa"
+    webb -> apigw "autoriza"
+    apigw -> c1 "usa"
+    apigw -> c2 "usa"
+    apigw -> c3 "usa"
+    apigw -> c4 "usa"
+    apigw -> c5 "usa"
+    apigw -> c6 "usa"
+    apigw -> c7 "usa"
+    c1 -> bd "lee y escribe"
+    c2 -> bd "lee y escribe"
+    c3 -> bd "lee y escribe"
+    c4 -> bd "lee y escribe"
+    c5 -> bd "lee y escribe"
+    c6 -> bd "lee y escribe"
+    c7 -> bd "lee y escribe"
+    //c3 - c5 "lee y escribe"
+    //contenedores with systems
+    //c5 - s1 "usa"
+    //c5 - s2 "usa"
+    //c5 - s3 "usa"
+    //c5 - s4 "usa"
+    
+    
+    //relaciones componentes
+    //webb - cp1 "usa"
+    apigw -> cp1 "usa"
+    cp1 -> cp2 "usa"
+    cp1 -> cp3 "usa"
+    cp1 -> cp4 "usa"
+    cp1 -> cp5 "usa"
+    //cp1 - cp6 "usa"
+    //cp1 - cp7 "usa"
+    //cp7 - c5 "USA"
+    //cp1 - rc "usa"
+    
+    
+    cp2 -> bd "leer y escribir"
+    cp3 -> bd "leer y escribir"
+    cp4 -> bd "leer y escribir"
+    cp5 -> bd "leer y escribir"
+    //cp6 - bd "leer y escribir"
+    //cp7 - bd "leer y escribir"
+    
+    //components software
+    cp1 -> s1 "usa"
+    cp1 -> s2 "usa"
+    cp1 -> s3 "usa"
+    cp1 -> s4 "usa"
+    
+    }
+    
+    
+    
+    views {
+        systemContext software {
+            include *
+            autolayout
+        }
+        container  software {
+            include *
+            //autolayout
+        }
+        component c4 {
+           include *
+           //autolayout
+        }
+
+        theme default
+        styles {
+         element "Oracle" {
+                shape "Cylinder" 
+                background "#ec0e0e" 
+                color "#ffffff" 
+            }
+             element "SI" {
+                shape "Hexagon" 
+                background "#ff8000" 
+                color "#ffffff" 
+            }
+            element "SPOT" {
+                shape "RoundedBox" 
+                background "#26cf48" 
+                color "#ffffff" 
+            }
+            
+             
+            
+        }
+    }
+
+}
