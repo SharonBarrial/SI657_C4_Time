@@ -13,6 +13,12 @@ skinparam {
 
 hide stereotype
 
+skinparam person<<Administrador>> {
+  BackgroundColor #08427b
+  FontColor #ffffff
+  BorderColor #052e56
+  shadowing false
+}
 skinparam person<<Familiar>> {
   BackgroundColor #08427b
   FontColor #ffffff
@@ -31,6 +37,12 @@ skinparam rectangle<<GOOGLEMAPS>> {
   FontColor #ffffff
   BorderColor #0b4884
   roundCorner 20
+  shadowing false
+}
+skinparam person<<Invitado>> {
+  BackgroundColor #08427b
+  FontColor #ffffff
+  BorderColor #052e56
   shadowing false
 }
 skinparam rectangle<<PAYPAL>> {
@@ -56,13 +68,17 @@ skinparam rectangle<<YOUTUBE>> {
 }
 
 person "==Familiar\n<size:10>[Person]</size>\n\nDescripción de usuarios" <<Familiar>> as Familiar
+person "==Invitado\n<size:10>[Person]</size>\n\nDescripción de usuarios" <<Invitado>> as Invitado
 rectangle "==YOUTUBE\n<size:10>[Software System]</size>\n\nInternal System" <<YOUTUBE>> as YOUTUBE
 rectangle "==WHATSAPP/TWILIO/GMAIL\n<size:10>[Software System]</size>\n\nInternal System" <<WHATSAPPTWILIOGMAIL>> as WHATSAPPTWILIOGMAIL
 rectangle "==PAYPAL\n<size:10>[Software System]</size>\n\nInternal System" <<PAYPAL>> as PAYPAL
 rectangle "==GOOGLE MAPS\n<size:10>[Software System]</size>\n\nInternal System" <<GOOGLEMAPS>> as GOOGLEMAPS
+person "==Administrador\n<size:10>[Person]</size>\n\nDescripción de usuarios" <<Administrador>> as Administrador
 rectangle "==Family\n<size:10>[Software System]</size>\n\nSistema mantener contacto con familiares en el extranjero" <<Family>> as Family
 
 Familiar .[#707070,thickness=2].> Family : "<color:#707070>Usa"
+Invitado .[#707070,thickness=2].> Family : "<color:#707070>usa"
+Administrador .[#707070,thickness=2].> Family : "<color:#707070>usa"
 Family .[#707070,thickness=2].> YOUTUBE : "<color:#707070>usa"
 Family .[#707070,thickness=2].> WHATSAPPTWILIOGMAIL : "<color:#707070>usa"
 Family .[#707070,thickness=2].> PAYPAL : "<color:#707070>usa"
