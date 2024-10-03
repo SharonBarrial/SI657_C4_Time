@@ -1,1 +1,70 @@
+@startuml pc1
+set separator none
+title Family - System Context
 
+top to bottom direction
+
+skinparam {
+  arrowFontSize 10
+  defaultTextAlignment center
+  wrapWidth 200
+  maxMessageSize 100
+}
+
+hide stereotype
+
+skinparam person<<Familiar>> {
+  BackgroundColor #08427b
+  FontColor #ffffff
+  BorderColor #052e56
+  shadowing false
+}
+skinparam rectangle<<Family>> {
+  BackgroundColor #26cf48
+  FontColor #ffffff
+  BorderColor #1a9032
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<GOOGLEMAPS>> {
+  BackgroundColor #1168bd
+  FontColor #ffffff
+  BorderColor #0b4884
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<PAYPAL>> {
+  BackgroundColor #1168bd
+  FontColor #ffffff
+  BorderColor #0b4884
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<WHATSAPPTWILIOGMAIL>> {
+  BackgroundColor #1168bd
+  FontColor #ffffff
+  BorderColor #0b4884
+  roundCorner 20
+  shadowing false
+}
+skinparam rectangle<<YOUTUBE>> {
+  BackgroundColor #1168bd
+  FontColor #ffffff
+  BorderColor #0b4884
+  roundCorner 20
+  shadowing false
+}
+
+person "==Familiar\n<size:10>[Person]</size>\n\nDescripción de usuarios" <<Familiar>> as Familiar
+rectangle "==YOUTUBE\n<size:10>[Software System]</size>\n\nInternal System" <<YOUTUBE>> as YOUTUBE
+rectangle "==WHATSAPP/TWILIO/GMAIL\n<size:10>[Software System]</size>\n\nInternal System" <<WHATSAPPTWILIOGMAIL>> as WHATSAPPTWILIOGMAIL
+rectangle "==PAYPAL\n<size:10>[Software System]</size>\n\nInternal System" <<PAYPAL>> as PAYPAL
+rectangle "==GOOGLE MAPS\n<size:10>[Software System]</size>\n\nInternal System" <<GOOGLEMAPS>> as GOOGLEMAPS
+rectangle "==Family\n<size:10>[Software System]</size>\n\nSistema mantener contacto con familiares en el extranjero" <<Family>> as Family
+
+Familiar .[#707070,thickness=2].> Family : "<color:#707070>Usa"
+Family .[#707070,thickness=2].> YOUTUBE : "<color:#707070>usa"
+Family .[#707070,thickness=2].> WHATSAPPTWILIOGMAIL : "<color:#707070>usa"
+Family .[#707070,thickness=2].> PAYPAL : "<color:#707070>usa"
+Family .[#707070,thickness=2].> GOOGLEMAPS : "<color:#707070>usa"
+@enduml
