@@ -1,0 +1,198 @@
+workspace "Ciberseguridad" "Sistema que permite realizar el procesamiento de información GeoCientífica y graficarla para una mejor georreferenciación" {
+
+    model {
+    user1 = person "Analista de seguridad" "Descripción de usuarios"
+    //user2  person "Usuarios de la red" "Descripción de usuarios"
+    //user3  person "Administrador" "Descripción de usuarios"
+    
+    software = softwareSystem  "PLATAFORMA DE SEGURIDAD" "Dispositivo de seguridad perimetral y monitoreo de pruebas de acceso"   "SPOT"{
+        
+        webb = container "APP WEB"   "Utilizada por los administradores para configurar y visualizar el tráfico"  "JBOSS JSON"
+        apigw = container  "APIGATEWAY"  "ApI Gateway" "Java" "SI"
+        //rc= container "RETRANSMISION" "Jakarta" "PYTHON" "SI"
+        bd = container "Derby"  "Base de datos"  "Archivos Log" "Oracle"
+        bd2 = container "File System"  "Base de datos"  "Archivos Log" "Oracle"
+        
+        
+        //container modulos
+        c1 = container "BALANCEADOR" "JBOSS JSON"
+        c2 = container "BROKER" "JBOSS JSON" 
+        //c3= container "ESB" "JBOSS JSON"
+        c5 = container "LOG" "System Software"
+        c7 = container "UPDATE" "System Software"
+        c8 = container "CONFIGURACION"
+        
+        c4 = container "HONEYPOT" "JBOSS JSON" {
+            cp1 = component "WEBAPP" "HTPP puerto 80"
+            cp2 = component "WEBSERVICE" " REST/SOAP puerto 8080"
+            cp3 = component "CORREO" "puerto 25"
+            cp4 = component "DATABASE" "puerto 5000"
+            cp5 = component "SOCKET"
+            //cp6= component "NUMERO DE OPERACION"
+            //cp7  component "MODULO MAPAS DIGITALES"
+        
+        }
+        
+        c6 = container "UTM" "System Software" {
+            ct1 = component "SNIFFER" "explora los paquetes."
+            ct2 = component "ADMIN DEVICES" "permite gestionarlos para analizar el tráfico, o restringir el tráfico generado desde y hasta esos dispositivos"
+            ct3 = component "POLICY AND OBJECTS" "reglas que se aplican al tráfico generado por los dispositivos"
+            ct4 = component "WIFI ACCESS MANAGER" "identificar las redes que se implementan con equipos con conexión wifi y se indican reglas de uso y acceso de la conexión Wifi"
+            ct5 = component "ANTIVIRUS" "examina el contenido de los paquetes, procedencia o puerto utilizado,"
+            ct6 = component "VPN MANAGER" "permite crear redes que encriptan el contenido transmitido para protegerlo de posibles capturas de datos"
+        }
+        
+    }
+    
+    //SYSTEMS
+   
+    s1 = softwareSystem "NOC" "Internal System"
+    s2 = softwareSystem "SOC" "Internal System"
+    //s3  softwareSystem "PAYPAL" "Internal System"
+    //s4  softwareSystem "GOOGLE MAPS" "Internal System"
+    //bounded context de comunicacion y notificacion: twilio/whatsapp/gmail
+    //bounded context de contenidos compartidos: youtube/google maps
+    //bounded context de transacciones: paypal
+    
+    s6 = softwareSystem "CLOUD S3" "" "SI"
+    
+    //relaciones contexto
+    user1 -> software "Usa y configura"
+    //user2 > software "usa"
+    //user3 > software "usa"
+    
+    //SYSTEMS-RELATIONS
+    //rc-> s1 "usa"
+    //rc-> s2 "usa"
+    //c4-> c8 "lee y escribe"
+    
+    
+    //CONEXION BASE DE DATOS
+    //c1-> bd "lee y escribe"
+    //c2-> bd "lee y escribe"
+    //c3-> bd "lee y escribe"
+    //c4-> bd "lee y escribe"
+    c5 -> bd2 "lee y escribe"
+    //c6-> bd "lee y escribe"
+    //c7-> bd "lee y escribe"
+    c8 -> bd "lee y escribe"
+    
+    
+    
+    //relaciones contenedores
+    user1 -> c1 "usa"
+    //user2 > webb "usa"
+    //user3 > webb "usa"
+    c1 -> webb "usa"
+    webb -> apigw "usa"
+    webb -> c2 "usa"
+    apigw -> c4 "usa"
+    
+    c2 -> c6 "usa"
+    c6 -> c5 "usa"
+    c4 -> c6 "usa"
+    c4 -> c8 "lee y usa"
+    c6 -> c8 "lee y usa"
+    
+    c8 -> c7 "usa"
+    //apigw-> rc "usa"
+    
+    
+    
+    //contenedores with systems
+    c7 -> s1 "usa"
+    c7 -> s2 "usa"
+    //c5 - s3 "usa"
+    //c5 - s4 "usa"
+    
+    
+    //relaciones componentes 1
+    //webb - cp1 "usa"
+    apigw -> cp1 "usa"
+    apigw -> cp2 "usa"
+    apigw -> cp3 "usa"
+    apigw -> cp4 "usa"
+    apigw -> cp5 "usa"
+    //cp7 - c5 "USA"
+    //cp1-> rc "usa"
+    cp1 -> c6 "usa"
+    cp2 -> c6 "usa"
+    cp3 -> c6 "usa"
+    cp4 -> c6 "usa"
+    cp5 -> c6 "usa"
+    
+    //COMPONENTES 2
+    c4 -> ct1 "usa"
+    ct1 -> ct2 "usa"
+    ct1 -> ct3 "usa"
+    ct1 -> ct4 "usa"
+    ct1 -> ct5 "usa"
+    ct1 -> ct6 "usa"
+    //------------
+    ct2 -> c5 "usa"
+    ct3 -> c5 "usa"
+    ct4 -> c5 "usa"
+    ct5 -> c5 "usa"
+    ct6 -> c5 "usa"
+    
+    //componentes con base de datos
+    //cp2-> bd "leer y escribir"
+    //cp3-> bd "leer y escribir"
+    //cp4-> bd "leer y escribir"
+    //cp5-> bd "leer y escribir"
+    //cp6-> bd "leer y escribir"
+    //cp7 - bd "leer y escribir"
+    //rc-> c8 "usa"
+    
+    //components software
+    //cp1 > s1 "usa"
+    //cp1 > s2 "usa"
+    //cp1 > s3 "usa"
+    //cp1 - s4 "usa"
+    
+    }
+    
+    
+    
+    views {
+        systemContext software {
+            include *
+            autolayout
+        }
+        container  software {
+            include *
+            //autolayout
+        }
+        component c4 {
+           include *
+           //autolayout
+        }
+        component c6 {
+           include *
+           //autolayout
+        }
+
+        theme default
+        styles {
+         element "Oracle" {
+                shape "Cylinder" 
+                background "#ec0e0e" 
+                color "#ffffff" 
+            }
+             element "SI" {
+                shape "Hexagon" 
+                background "#ff8000" 
+                color "#ffffff" 
+            }
+            element "SPOT" {
+                shape "RoundedBox" 
+                background "#26cf48" 
+                color "#ffffff" 
+            }
+            
+             
+            
+        }
+    }
+
+}
