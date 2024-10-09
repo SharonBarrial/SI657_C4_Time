@@ -1,0 +1,212 @@
+workspace "Ciberseguridad" "Sistema que permite realizar el procesamiento de información GeoCientífica y graficarla para una mejor georreferenciación" {
+
+    model {
+    user1 = person "PUBLICADOR" "Carga los archivos de video"
+    user2 = person "TRADUCTOR" "Realiza revisiones y correcciones a los subtítulos generados y traducidos"
+    user3 = person "REVISOR" "Revisa el portafolio asignado al traductor y controla en nivel de avance y calidad"
+    user4 = person "ADMINISTRADOR" "Responsable de la gestión y configuración de la plataforma de procesamiento de medios"
+    
+    software = softwareSystem  "PLATAFORMA DE PROCESAMIENTO MULTIMEDIA" "Dispositivo de seguridad perimetral y monitoreo de pruebas de acceso"   "SPOT"{
+        
+        webb = container "APP WEB"   "Interfaz de procesamiento multimedia. Permite a los usuarios cargar, analizar y revisar videos"  "JBOSS JSON"
+        apigw = container  "APIGATEWAY"  "Dirige el tráfico y las solicitudes a los servicios correspondientes" "Java" "SI"
+        rc = container "SERVICIOS CLOUD" "Jakarta" "PYTHON" "SI"
+        bd = container "NoSQL CASSANDRA"  "Base de datos NoSQL"  "PUERTO 7000" "Oracle"
+        bd2 = container "File System"  "Sistema de archivos"  "N/A" 
+        
+        
+        //container modulos
+        c1 = container "BALANCEADOR" "JBOSS JSON"
+        c2 = container "LDAP" "JBOSS JSON" 
+        c3 = container "BROKER ESB" "JBOSS JSON"
+        
+        c4 = container "BUSINESS CONTEXT" "VMS" {
+            cp0 = component "ADMIN PROCESS MODULE"
+            cp1 = component "TRANSCRIPCION" "CC1"
+            cp2 = component "SUBTITULACION" "CC2"
+            cp3 = component "TRADUCCION" "CC4"
+            cp4 = component "REVISION" "puerto 5000"
+            //cp5= component "SOCKET"
+            //cp6= component "NUMERO DE OPERACION"
+            //cp7  component "MODULO MAPAS DIGITALES"
+        
+        }
+        
+        //c5= container "FILE SYSTEM" "System Software"
+        //c7= container "UPDATE" "System Software"
+        //c8= container "CONFIGURACION"
+        
+        /** c6= container "UTM" "System Software" {
+            ct1 = component "SNIFFER" "explora los paquetes."
+            ct2 = component "ADMIN DEVICES" "permite gestionarlos para analizar el tráfico, o restringir el tráfico generado desde y hasta esos dispositivos"
+            ct3 = component "POLICY AND OBJECTS" "reglas que se aplican al tráfico generado por los dispositivos"
+            ct4 = component "WIFI ACCESS MANAGER" "identificar las redes que se implementan con equipos con conexión wifi y se indican reglas de uso y acceso de la conexión Wifi"
+            ct5 = component "ANTIVIRUS" "examina el contenido de los paquetes, procedencia o puerto utilizado,"
+            ct6 = component "VPN MANAGER" "permite crear redes que encriptan el contenido transmitido para protegerlo de posibles capturas de datos"
+        }**/
+        
+    }
+    
+    //SYSTEMS
+   
+    s1 = softwareSystem "Amazon Transcribe/Translate/Polly" "Internal System"
+    s4 = softwareSystem "MediaConvert" "Internal System"
+    s5 = softwareSystem "Amazon Rekognition" "Internal System"
+    s6 = softwareSystem "Amazon OpenSearch Service" "Internal System"
+    s7 = softwareSystem "PAYMENT" "Internal Service"
+    
+    //bounded context de comunicacion y notificacion: twilio/whatsapp/gmail
+    //bounded context de contenidos compartidos: youtube/google maps
+    //bounded context de transacciones: paypal
+    s8 =  softwareSystem "CLOUD AWS" "" "SI"
+    
+    c3 -> cp0 "usa"
+    cp0 -> s8 "usa"
+    cp0 -> cp1 "usa"
+    cp0 -> cp2 "usa"
+    cp0 -> cp3 "usa"
+    cp0 -> cp4 "usa"
+    cp1 -> bd "lee y escribe"
+    cp2 -> bd "lee y escribe"
+    cp3 -> bd "lee y escribe"
+    cp4 -> bd "lee y escribe"
+    
+    cp0 -> s1 "usa"
+    cp0 -> s4 "usa"
+    cp0 -> s5 "usa"
+    cp0 -> s6 "usa"
+    //cp0-> s7 "usa"
+    
+    
+    cp1 -> bd2 "lee y escribe"
+    cp2 -> bd2 "lee y escribe"
+    cp3 -> bd2 "lee y escribe"
+    cp4 -> bd2 "lee y escribe"
+    
+    //relaciones contexto
+    user1 -> software "usa"
+    user2 -> software "usa"
+    user3 -> software "usa"
+    user4 -> software "usa y configura"
+    
+    //SYSTEMS-RELATIONS
+    //rc-> s1 "usa"
+    //rc-> s2 "usa"
+    //c4-> c8 "lee y escribe"
+    
+    
+    //CONEXION BASE DE DATOS
+    //c4-> bd "lee y escribe"
+    
+    
+    //relaciones contenedores
+        //users
+    user1 -> c1 "usa"
+    user2 -> c1 "usa"
+    user3 -> c1 "usa"
+    user4 -> c1 "usa"
+    
+        //segunda etapa
+    c1 -> webb "usa"
+    webb -> apigw "usa"
+        //API
+    apigw -> c2 "usa"
+    c2 -> c3 "usa"
+    //c3-> c4 "usa"
+    //c4-> bd2 "usa"
+    s8 -> bd2 "usa"
+    
+    //contenedores with systems
+    //c4-> s1 "usa"
+    /**c4-> s2 "usa"
+    c4 -> s3 "usa"
+    //c4 -> s4 "usa"
+    c4 -> s5 "usa"
+    c4 -> s6 "usa"**/
+    apigw -> s7 "usa"
+    apigw -> rc "usa"
+    rc -> s8 "usa"
+    
+    //c5 - s3 "usa"
+    //c5 - s4 "usa"
+    
+    
+    //relaciones componentes 1
+    //webb - cp1 "usa"
+    /**apigw-> cp1 "usa"
+    apigw -> cp2 "usa"
+    apigw -> cp3 "usa"
+    apigw -> cp4 "usa"**/
+    //cp7 - c5 "USA"
+    //cp1-> rc "usa"
+    
+    
+    //COMPONENTES 2
+    /**c4-> ct1 "usa"
+    ct1 -> ct2 "usa"
+    ct1 -> ct3 "usa"
+    ct1 -> ct4 "usa"
+    ct1 -> ct5 "usa"
+    ct1 -> ct6 "usa"
+    //------------
+    ct2 -> c5 "usa"
+    ct3 -> c5 "usa"
+    ct4 -> c5 "usa"
+    ct5 -> c5 "usa"
+    ct6 -> c5 "usa"**/
+    
+    //componentes con base de datos
+    //cp2-> bd "leer y escribir"
+    //cp3-> bd "leer y escribir"
+    //cp4-> bd "leer y escribir"
+    //cp5-> bd "leer y escribir"
+    //cp6-> bd "leer y escribir"
+    //cp7 - bd "leer y escribir"
+    //rc-> c8 "usa"
+    
+    //components software
+    //cp1 > s1 "usa"
+    //cp1 > s2 "usa"
+    //cp1 > s3 "usa"
+    //cp1 - s4 "usa"
+    
+    }
+    
+    views {
+        systemContext software {
+            include *
+            autolayout
+        }
+        container  software {
+            include *
+            //autolayout
+        }
+        component c4 {
+           include *
+           //autolayout
+        }
+
+        theme default
+        styles {
+         element "Oracle" {
+                shape "Cylinder" 
+                background "#ec0e0e" 
+                color "#ffffff" 
+            }
+             element "SI" {
+                shape "Hexagon" 
+                background "#ff8000" 
+                color "#ffffff" 
+            }
+            element "SPOT" {
+                shape "RoundedBox" 
+                background "#26cf48" 
+                color "#ffffff" 
+            }
+            
+             
+            
+        }
+    }
+
+}
