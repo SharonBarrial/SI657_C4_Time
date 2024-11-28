@@ -1,0 +1,65 @@
+workspace "RedisService" "Sistema de publicación de información con Redis para aplicaciones distribuidas" {
+
+    model {
+        // Usuario principal
+        user = person "Usuario Cliente" "Persona o sistema que consume los datos procesados a través de una aplicación web"
+
+        // Software principal
+        redisSystem = softwareSystem "Sistema RedisService" "Sistema de almacenamiento en caché y distribución de datos para aplicaciones distribuidas" {
+            // Contenedores principales
+            c2 = container "API de Servicio" "API REST que expone los datos de Redis a través del endpoint /worker" "Python (Flask)" ""
+            c3 = container "Redis Cache" "Sistema de almacenamiento en memoria que guarda datos JSON de trabajadores" "Redis en Docker" "BaseDatos"
+            c5 = container "appRedis" "Carga registros JSON al caché Redis" "Python (appRedis.py)" ""
+            c6 = container "RedisPc2" "Lee datos de Redis y los valida" "Java (Redis2Java.java)" ""
+        }
+
+        // Sistema externo
+        s1 = softwareSystem "Docker" "Entorno de contenedores para Redis" "SE"
+        s2 = softwareSystem "Faker" "Genera 100 registros JSON usando Faker" "SE"
+
+        // Relaciones principales
+        user -> s2 "Se conecta a la aplicación"
+        user -> c2 "Obtiene datos a través del endpoint /worker"
+        user -> c5 "Se conecta a la aplicación"
+        user -> c6 "Se conecta a la aplicación"
+        c2 -> c3 "usa"
+        c5 -> c3 "Carga los registros JSON en Redis"
+        c6 -> c3 "Lee registros de Redis para validación"
+        c3 -> s1 "Ejecutado dentro del contenedor Docker"
+        s2 -> c5 "Genera y envia registros json para cargar Redis"
+    }
+
+    views {
+        // Vista de contexto
+        systemContext redisSystem {
+            include *
+            autolayout
+        }
+
+        // Vista de contenedores
+        container redisSystem {
+            include *
+            autolayout
+        }
+
+        theme default
+
+        styles {
+            element "BaseDatos" {
+                shape "Cylinder"
+                background "#ec0e0e"
+                color "#ffffff"
+            }
+            element "SI" {
+                shape "Hexagon"
+                background "#3412de"
+                color "#ffffff"
+            }
+            element "SE" {
+                shape RoundedBox
+                background #008f39
+                color "#ffffff"
+            }
+        }
+    }
+}
