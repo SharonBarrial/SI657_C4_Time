@@ -1,0 +1,90 @@
+workspace {
+
+    model {
+        user = person "Postulante" "Profesional que postula a un puesto de trabajo"
+        user2 = person "Expertos" "Profesionales especializados en el"
+        softwareSystem = softwareSystem "Mampower human resources"    {
+     
+            
+            webapp = container "Web Application"  "Flutter web"{
+       
+            }
+            appmovil = container "App Movil" "Flutter"{
+                
+        }
+                 
+        landinpage = container "Landing page" "Flutter web" {
+                      user -> this "Usa"
+                user2 -> this "Usa"   
+        }
+        
+        
+        apigateway = container "Api Gateway" {
+                
+        }
+        
+            apiEvaluacion = container "Api Evaluacion" {
+            
+            evaluaciones = component "Evaluation controler"
+            psico = component "Modulo de psicologia"
+            know = component "Modulo de conocimientos"
+            DTO = component "conector bd"
+                
+        }
+            apiRegistro = container "Api Registro" {
+                
+        }
+            apiAnuncios = container "Api Anuncios" {
+                
+        }
+        
+        container "DatabaseRegitro" {
+                apiRegistro -> this "Lee y Escribe a"
+            }
+            
+          container "DatabaseEvaluacion" {
+                apiEvaluacion -> this "Lee y Escribe a"
+            }
+              container "Databaseanuncios" {
+                apiAnuncios -> this "Lee y Escribe a"
+            }
+        
+        
+        
+        }
+        
+        
+        
+        s2 =  softwareSystem "Sistema de antgecedentes" "Antecedentes policiales y judiciales"
+    
+    
+        softwareSystem ->  s2 "Consulta"
+
+       user2 -> softwareSystem  "Evalua a los postulantes"        
+
+    }
+    
+    views {
+        systemContext softwareSystem {
+            include *
+           
+        }
+
+        container softwareSystem {
+            include *
+        
+        }
+        
+        component ApiEvaluacion "Evaluacion"{
+            include *
+        }
+        
+        
+
+        theme default
+    }
+    
+    
+    
+    }
+    
