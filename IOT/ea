@@ -1,0 +1,97 @@
+workspace "Smart Agro" "IoT system for precision agriculture in rural areas, using innovative technologies to improve agricultural productivity" {
+
+    model {
+        // Define users
+        user1 = person "Field Supervisor" "Monitors sensors and maintenance in the field using a tablet or smartphone"
+        user2 = person "Field Operator" "Performs operational tasks in the field and reports incidents from their smartphone"
+        user3 = person "Central Office Team" "Reviews AI/ML analytics, manages patterns, and monitors operation status"
+        user4 = person "High-Level Manager" "Consults KPIs and analytical reports from their smartphone"
+        user5 = person "HI" ""
+        
+        // software general
+        software = softwareSystem "Smart Agro IoT Solution" "IoT system that integrates sensors, edge processing, and cloud for optimizing agricultural operations" {
+            
+            // contenedores
+            webb = container "Web Application" "" "Angular.js" "WB"
+            mobilee = container "Mobile Application" "" "Flutter" "MB"
+            sglaa = container "Single Page Application" "" "HTML/CSS" "WB" 
+            restt = container "Restful API" "" "Java" 
+            iotapp = container "IoT Embedded Application" ""  "" "SE"
+            cloudd = container "Cloud API" "Lee datos de Redis y los valida" 
+            fogg = container "Fog API" "Lee datos de Redis y los valida" 
+            edgee = container "Edge Computing" "Lee datos de Redis y los valida" 
+            cdb = container "Cloud Database" "Lee datos de Redis y los valida" "" "DB"
+            fdb = container "Fog Database" "Lee datos de Redis y los valida" "" "DB"
+            edb = container "Edge Database" "Lee datos de Redis y los valida" "" "DB"
+
+        
+        }
+        
+        //software extern
+        s1 = softwareSystem "Docker" "Entorno de contenedores para Redis" "SE"
+        
+        //relaciones 
+        
+        software -> s1
+        
+    }
+
+    // Context System and Relationships
+    views {
+        systemContext software {
+            include *
+            autolayout
+        }
+
+        container software {
+            include *
+            //autolayout
+        }
+        
+        //container c4 {
+          //  include *
+            //autolayout
+        //}
+        
+        theme default
+        styles {
+        
+            element "SPOT" {
+                shape "RoundedBox" 
+                background "#26cf48" 
+                color "#ffffff" 
+            }
+            
+            element "DB" {
+                shape "Cylinder"
+                background "#FF0000"
+                color "#FFFFFF"
+            }
+
+            element "WB" {
+                shape "WebBrowser"
+                background "#F4A300"
+                color "#ffffff"
+            }
+
+            element "MB" {
+                shape "MobileDevicePortrait"
+                background "#F4A300"
+                color "#ffffff"
+            }
+            
+            element "SE" {
+                shape "RoundedBox"
+                background "#006400"
+                color "#ffffff"
+            }
+            
+            element "IOT" {
+                shape "RoundedBox"
+                background "#0D76A8"
+                color "#ffffff"
+            }
+
+        }
+    }
+}
