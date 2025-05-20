@@ -1,22 +1,22 @@
-workspace "Smart Agro" "IoT system for precision agriculture in rural areas, using innovative technologies to improve agricultural productivity" {
+workspace "GreenSense Environmental Monitoring Platform" "IoT system for precision agriculture in rural areas, using innovative technologies to improve agricultural productivity" {
 
     model {
         // Define users
-        user1 = person "Field Supervisor" "Monitors sensors and maintenance in the field using a tablet or smartphone"
-        user2 = person "Field Operator" "Performs operational tasks in the field and reports incidents from their smartphone"
-        user3 = person "Central Office Team" "Reviews AI/ML analytics, manages patterns, and monitors operation status"
-        user4 = person "High-Level Manager" "Consults KPIs and analytical reports from their smartphone"
-        user5 = person "HI" ""
+        user1 = person "Facility Manager" "Configures zones, monitors environmental parameters, and receives alerts."
+        user2 = person "Field Technician" "Uses mobile app to check sensor status and perform corrective actions."
+        user3 = person "Supply Partner" "Manages components like filters and fans via web/app"
+        user4 = person "Maintenance Partner" "Schedules and performs device maintenance."
+        //user5= person "HI" ""
         
         // software general
-        software = softwareSystem "Smart Agro IoT Solution" "IoT system that integrates sensors, edge processing, and cloud for optimizing agricultural operations" {
+        software = softwareSystem "GreenSense Environmental Monitoring Platform" "IoT system that integrates sensors, edge processing, and cloud for optimizing agricultural operations" {
             
             // contenedores
-            webb = container "Web Application" "" "Angular.js" "WB"
-            mobilee = container "Mobile Application" "" "Flutter" "MB"
-            sglaa = container "Single Page Application" "" "HTML/CSS" "WB" 
-            restt = container "Restful API" "" "Java" 
-            iotapp = container "IoT Embedded Application" ""  "" "SE"
+            webb = container "Web Application" "Web application that allows users to manage and configure the system, exposing REST APIs for external integration." "Angular.js" "WB"
+            mobilee = container "Mobile Application" "Mobile application for users that enables real-time monitoring and on-site corrective actions." "Flutter" "MB"
+            sglaa = container "Partner Integration Component" "Component that facilitates integration between partners' external systems" "HTML/CSS" "" 
+            restt = container "Restful API" "API that exposes REST services for integration with external systems" "Java" 
+            iotapp = container "IoT Embedded Application" "Application integrated into IoT devices to capture and send data."  "" ""
             cloudd = container "Cloud API" "Lee datos de Redis y los valida" 
             fogg = container "Fog API" "Lee datos de Redis y los valida" 
             edgee = container "Edge Computing" "Lee datos de Redis y los valida" 
@@ -28,11 +28,40 @@ workspace "Smart Agro" "IoT system for precision agriculture in rural areas, usi
         }
         
         //software extern
-        s1 = softwareSystem "Docker" "Entorno de contenedores para Redis" "SE"
+        s1 = softwareSystem "Inventory Management System" "of the Supply Partner" "SE"
+        s2 = softwareSystem "Service Order Management System" "of the Maintenance Partner" "SE"
         
         //relaciones 
+        user1 -> webb "Configuration, analytics, user management."
+        user3 -> webb "Configuration, analytics, user management."
+        user4 -> webb "Configuration, analytics, user management."
         
-        software -> s1
+        user2 -> mobilee "Real-time monitoring, on-site actions."
+        user3 -> mobilee "Real-time monitoring, on-site actions."
+        user4 -> mobilee "Real-time monitoring, on-site actions."
+        
+        webb -> restt "Exposes RESTful APIs for integration with external systems."
+        mobilee -> restt "Exposes RESTful APIs for integration with external systems."
+        
+        
+        s2 -> sglaa "Receives and displays analytical data and the operational status of loT devices."
+        s1 -> sglaa "Receives and displays analytical data and the operational status of loT devices."
+        
+        iotapp -> edgee "Edge processing results, including real-time sensor data"
+        edgee -> edb "The lot sensors send collected environmental data to the Edge computing layer for local processing and decision-making."
+        edgee -> fogg "Sends processed data for further communication between Cloud and Edge"
+        fogg -> fdb "Stores processed data in Fog database"
+        fogg -> cloudd "Transfers processed data and receives updates"
+        cloudd -> cdb "Stores processed data in Cloud database"
+        
+        restt -> cloudd "Receives and displays analytical data and the operational status of loT devices."
+        sglaa -> iotapp  "1 Receives and displays analytical data and the operational status of loT devices."
+        
+        restt -> sglaa "1 Receives and displays analytical data and the operational status of loT devices." 
+        
+        
+        
+        
         
     }
 
