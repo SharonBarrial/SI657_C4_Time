@@ -1,0 +1,134 @@
+workspace "AgroNova S.A. Ecosystem Platform" "IoT system for precision agriculture in rural areas, using innovative technologies to improve agricultural productivity" {
+
+    model {
+        // Define users
+        user1 = person "Agricultores" "Usuarios que interactúan con la app móvil para registrar producción, consultar tareas y seguimiento de cultivos"
+        user2 = person "Distribuidores" "Usuarios que interactúan con la app móvil para gestionar entregas, rutas y trazabilidad de productos"
+        user3 = person "Personal Administrativo (Alta Dirección)" "Usuarios que utilizan la aplicación web para monitorear operaciones, consultar reportes y tomar decisiones estratégicas"
+        user4 = person "Clientes" "Usuarios externos que acceden a la plataforma para consultar la trazabilidad e información de productos agrícolas"
+
+        
+        // software general
+        software = softwareSystem "AgroNova S.A. Ecosystem" "Plataforma digital moderna, basada en arquitectura de microservicios y soluciones serverless en Google Cloud, que integra procesos clave del negocio agroindustrial para mejorar la eficiencia operativa, la trazabilidad de productos y la experiencia de usuarios web y móviles." {
+            
+            // contenedores
+            webb = container "Web Application Services" "Aplicación web principal desarrollada con Angular, que ofrece la interfaz para usuarios internos y externos." "Angular.js" "WB"
+            mobilee = container "Mobile Application" "Aplicación móvil nativa para iOS y Android, utilizada por agricultores y distribuidores para interacción en campo." "Swift/witfUI/Kotlin/Jetpack Compose" "MB"
+            sglaa = container "Single Page Application" "Dashboard ligera y rápida para funcionalidades específicas, creada con HTML/CSS." "HTML/CSS" "WB" 
+            apg = container "API Gateway" "Puerta de entrada a microservicios" "YAML/JSON" "AP"
+            lb = container "Load Balancer" "Componente encargado de distribuir el tráfico entrante de forma equilibrada entre los servicios disponibles, asegurando alta disponibilidad y escalabilidad" "YAML/JSON" ""
+            
+            bdc1 = container "Gestión Agrícola Microservice" "Servicio backend que implementa la lógica de negocio para un dominio específico de AgroNova, siguiendo DDD y principios CQRS." "Java" ""
+            bdc2 = container "Logística y distribución Microservice" "Servicio backend que implementa la lógica de negocio para un dominio específico de AgroNova, siguiendo DDD y principios CQRS." "Java" ""
+            bdc3 = container "Gestión Comercial Microservice" "Servicio backend que implementa la lógica de negocio para un dominio específico de AgroNova, siguiendo DDD y principios CQRS." "Java" ""
+            bdc4 = container "Gestión de Inventario Microservice" "Servicio backend que implementa la lógica de negocio para un dominio específico de AgroNova, siguiendo DDD y principios CQRS." "Java" ""
+            bdc5 = container "Trazabilidad y Calidad Microservice" "Servicio backend que implementa la lógica de negocio para un dominio específico de AgroNova, siguiendo DDD y principios CQRS." "Java" ""
+            bdc6 = container "Gestión Financiera Microservice" "Servicio backend que implementa la lógica de negocio para un dominio específico de AgroNova, siguiendo DDD y principios CQRS." "Java" ""
+            bdc7 = container "Atención al Cliente y Postventa Microservice" "Servicio backend que implementa la lógica de negocio para un dominio específico de AgroNova, siguiendo DDD y principios CQRS." "Java" ""
+            
+            dbdc1 = container "DB GAM" "Almacenamiento persistente de datos específico del microservicio asociado, optimizado para sus requerimientos." "MySQL" "DB"
+            dbdc2 = container "DB LDM" "Almacenamiento persistente de datos específico del microservicio asociado, optimizado para sus requerimientos." "MySQL" "DB"
+            dbdc3 = container "DB GCM" "Almacenamiento persistente de datos específico del microservicio asociado, optimizado para sus requerimientos." "MySQL" "DB"
+            dbdc4 = container "DB GIM" "Almacenamiento persistente de datos específico del microservicio asociado, optimizado para sus requerimientos." "MySQL" "DB"
+            dbdc5 = container "DB TCM" "Almacenamiento persistente de datos específico del microservicio asociado, optimizado para sus requerimientos." "MySQL" "DB"
+            dbdc6 = container "DB GFM" "Almacenamiento persistente de datos específico del microservicio asociado, optimizado para sus requerimientos." "MySQL" "DB"
+            dbdc7 = container "DB ACPM" "Almacenamiento persistente de datos específico del microservicio asociado, optimizado para sus requerimientos." "MySQL" "DB"
+
+        
+        }
+        
+        //software extern
+s1 = softwareSystem "Google Cloud Platform" "Proveedor externo que ofrece servicios de infraestructura, computación serverless, inteligencia artificial, almacenamiento, bases de datos, autenticación y monitoreo para el ecosistema AgroNova." "SE"
+
+        
+        //relaciones 
+        user1 -> mobilee "Consulta y registro de cultivos"
+        user2 -> mobilee "Gestión de pedidos y entregas"
+        user3 -> mobilee "Supervisión móvil"
+        user3 -> webb "Panel de control administrativo"
+        user4 -> webb "Consulta de trazabilidad"
+        s1 -> apg "Servicios de infraestructura"
+        apg -> s1 "Invocación de servicios gestionados"
+
+        sglaa -> webb "Interfaz SPA para administración"
+        webb -> lb "Envía solicitudes"
+        mobilee -> lb "Envía solicitudes"
+        lb -> apg "Redirige tráfico"
+
+        apg -> bdc1 "Request a microservicio del dominio"
+        apg -> bdc2 "Request a microservicio del dominio"
+        apg -> bdc3 "Request a microservicio del dominio"
+        apg -> bdc4 "Request a microservicio del dominio"
+        apg -> bdc5 "Request a microservicio del dominio"
+        apg -> bdc6 "Request a microservicio del dominio"
+        apg -> bdc7 "Request a microservicio del dominio"
+        bdc1 -> dbdc1 "Acceso a datos del dominio"
+        bdc2 -> dbdc2 "Acceso a datos del dominio"
+        bdc3 -> dbdc3 "Acceso a datos del dominio"
+        bdc4 -> dbdc4 "Acceso a datos del dominio"
+        bdc5 -> dbdc5 "Acceso a datos del dominio"
+        bdc6 -> dbdc6 "Acceso a datos del dominio"
+        bdc7 -> dbdc7 "Acceso a datos del dominio"
+
+        
+    }
+
+    // Context System and Relationships
+    views {
+        systemContext software {
+            include *
+            autolayout
+        }
+
+        container software {
+            include *
+            //autolayout
+        }
+        
+        //container c4 {
+          //  include *
+            //autolayout
+        //}
+        
+        theme default
+        styles {
+        
+            element "SPOT" {
+                shape "RoundedBox" 
+                background "#26cf48" 
+                color "#ffffff" 
+            }
+            
+            element "DB" {
+                shape "Cylinder"
+                background "#FF0000"
+                color "#FFFFFF"
+            }
+
+            element "WB" {
+                shape "WebBrowser"
+                background "#F4A300"
+                color "#ffffff"
+            }
+
+            element "MB" {
+                shape "MobileDevicePortrait"
+                background "#F4A300"
+                color "#ffffff"
+            }
+            
+            element "SE" {
+                shape "RoundedBox"
+                background "#006400"
+                color "#ffffff"
+            }
+            
+            element "AP" {
+                shape "Hexagon"
+                background "#D84B20"
+                color "#ffffff"
+            }
+
+        }
+    }
+}
